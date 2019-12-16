@@ -10,6 +10,7 @@
 
 	  <!-- Bootstrap core CSS -->
 	  <link href="{{url('css/bootstrap.min.css')}}" rel="stylesheet">
+      <link href="{{url('font-awesome/css/font-awesome.min.css')}}" rel="stylesheet">
 
 
 </head>
@@ -38,6 +39,9 @@
                                 </li>
                             @endif
                         @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('posts') }}">{{ __('Posts') }}</a>
+                            </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('home') }}">{{ __('Home') }}</a>
                             </li>
