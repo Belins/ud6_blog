@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+
+    public function _construct()
+    {
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +18,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        //
+        return "Soy administrador";
     }
 
     /**
