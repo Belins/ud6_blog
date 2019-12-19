@@ -6,7 +6,9 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+use App\Notifications\VerifyEmailVerification;
+
+class User extends Authenticatable //implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -37,8 +39,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+
     public function isAdmin(){
         return ($this->role == "admin");
     }
 
 }
+
+    /*public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail)
+    }*/
+
+
