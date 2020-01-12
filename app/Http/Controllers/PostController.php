@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use \Carbon\Carbon;
 use App\Post;
-
+use App\Category;
 class PostController extends Controller
 {
     /**
@@ -38,8 +38,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        $post= new Post();
-        return view('posts._form',['post'=>$post]);
+        $post = new Post;
+        $boton = "Crear";
+        $categories = Category::All();
+        return view('posts.create')->with(['categories' => $categories, 'post' => $post, 'btnText' => $boton]);
     }
 
     /**
@@ -50,15 +52,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $time = Carbon::now()->setTimezone('Europe/Madrid');
-        $Post = new Post;
-        $Post->title = $request -> input('title');
-        $Post->excerpt = $request -> input('excerpt');
-        $Post->body = $request -> input('body');
-        $Post->image = $request -> input('img');
-        $Post->user_id = Auth::user()->id;
-        $Post->save();
-        return redirect('/');
+        $post = new Post;
+        $post->title = $request -> input('title');
+        $post->excerpt = $request -> input('excerpt');
+        $post->body = $request -> input('body');
+        $post->image = $request -> input('img');
+        $post->user_id = Auth::user()->id;
+        $post->category_id = $request -> get('category');
+        $post->save();
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -69,9 +71,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post=Post::find($id);
-        //$this->authorize('view', $post)
-        //return view('post.show', compact(varname))
+        $post = Post::find($id);
+        $this->authorize('view', $post);
+        return view('posts.show', compact('post'));
     }
 
     /**
@@ -82,8 +84,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
+        $categories = Category::All();
+        $boton = "Editar";
         $post=Post::find($id);
-        return view('posts._form', compact('post'));
+        return view('posts.edit')->with(['categories' => $categories, 'post' => $post, 'btnText' => $boton]);
     }
 
     /**
@@ -95,7 +99,15 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::find($id);
+        $post->title = $request -> input('title');
+        $post->excerpt = $request -> input('excerpt');
+        $post->body = $request -> input('body');
+        $post->image = $request -> input('img');
+        $post->user_id = Auth::user()->id;
+        $post->category_id = $request -> get('category');
+        $post->save();
+        return redirect(route('posts.index'));
     }
 
     /**
@@ -106,6 +118,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Post::find($id)->delete();
+        return redirect(route('posts.index'));
     }
 }

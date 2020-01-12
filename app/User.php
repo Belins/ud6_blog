@@ -44,11 +44,17 @@ class User extends Authenticatable //implements MustVerifyEmail
         return ($this->role == "admin");
     }
 
-}
+
 
     /*public function sendEmailVerificationNotification()
     {
         $this->notify(new VerifyEmail)
     }*/
 
+
+    public function posts()    
+    {
+        return $this->hasMany('App\Post');
+    }
+};
 
