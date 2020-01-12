@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use \Carbon\Carbon;
 use App\Post;
 
 class PostController extends Controller
@@ -49,7 +50,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $time = Carbon::now()->setTimezone('Europe/Madrid');
+        $Post = new Post;
+        $Post->title = $request -> input('title');
+        $Post->excerpt = $request -> input('excerpt');
+        $Post->body = $request -> input('body');
+        $Post->image = $request -> input('img');
+        $Post->user_id = Auth::user()->id;
+        $Post->save();
+        return redirect('/');
     }
 
     /**
