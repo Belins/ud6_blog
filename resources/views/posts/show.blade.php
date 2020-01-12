@@ -5,17 +5,17 @@
 <div class="container">
             <h3>{{$post->title}}</h3>
         
-            <label>Description</label>
-            <p>{{$post->description}}</pz>
+            <p>{{$post->excerpt}}</pz>
 
-            <label>Body</label>
             <p>{{$post->body}}</p>
 
-            <label>Category</label>
             <p>{{$post->category}}</p>
+
+            <p>Usuario: {{$post->user->name}}</p>
         
             <label>Image</label>
-            <input type="file" name="img" src="{{$post->image}}">
+            <input type="image" src="{{$post->image}}">
+            <<img src="{{$post->image}}" alt="">
 
 </div>
 
