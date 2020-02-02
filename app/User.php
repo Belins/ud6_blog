@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
+use Auth;
 use App\Notifications\VerifyEmailVerification;
 
 class User extends Authenticatable //implements MustVerifyEmail
@@ -44,9 +44,27 @@ class User extends Authenticatable //implements MustVerifyEmail
         $this->notify(new VerifyEmail)
     }*/
 
+    public function isAdmin()
+    {
+        $usuario = User::find(Auth::user()->id);
+        foreach($usuario->roles as $role)
+        {
+            if($role->name == "admin")
+            {
+                return ($this->role == 'admin');
+            }
+        }
+    }
+
     public function posts()    
     {
         return $this->hasMany('App\Post');
     }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
+
 };
 
